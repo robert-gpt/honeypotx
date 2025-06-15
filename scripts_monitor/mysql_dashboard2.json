@@ -535,7 +535,23 @@
         }
       ],
       "title": "Top 10 IPs por número de consultas",
-      "type": "table"
+      "type": "table",
+      "transformations": [
+        {
+          "id": "labelsToFields",
+          "options": {
+            "mode": "values"
+          }
+        },
+        {
+          "id": "regexReplace",
+          "options": {
+            "pattern": "$ip_mask_regex",
+            "replacement": "$ip_mask_replace",
+            "field": "remote_ip"
+          }
+        }
+      ]
     },
     {
       "datasource": "$DS_LOKI",
@@ -615,6 +631,26 @@
         "query": "loki",
         "refresh": 1,
         "type": "datasource"
+      },
+      {
+        "name": "ip_mask_regex",
+        "type": "textbox",
+        "label": "IP mask regex",
+        "query": "(\\d+\\.\\d+)\\.\\d+\\.\\d+",
+        "current": {
+          "text": "(\\d+\\.\\d+)\\.\\d+\\.\\d+",
+          "value": "(\\d+\\.\\d+)\\.\\d+\\.\\d+"
+        }
+      },
+      {
+        "name": "ip_mask_replace",
+        "type": "textbox",
+        "label": "IP mask replace",
+        "query": "$1.x.x",
+        "current": {
+          "text": "$1.x.x",
+          "value": "$1.x.x"
+        }
       }
     ]
   },
