@@ -22,6 +22,11 @@ scrape_configs:
     pipeline_stages:
       - regex:
           expression: '^(?P<remote_ip>\S+) .* "(?P<method>\S+) (?P<path>\S+)'
+        - replace:
+            source: remote_ip
+            expression: "(\d+\.\d+)\.\d+\.\d+"
+            replace: "$1.x.x"
+            target: remote_ip
       - labels: { remote_ip, method }
 
   - job_name: apache-error
@@ -30,8 +35,12 @@ scrape_configs:
     pipeline_stages:
       - regex:
           expression: 'IP=(?P<remote_ip>\d+\.\d+\.\d+\.\d+).*usuario=''(?P<user>[^']+)'' contraseña=''(?P<pass>[^']+)'' - Query=(?P<query>.+)'
+        - replace:
+            source: remote_ip
+            expression: "(\d+\.\d+)\.\d+\.\d+"
+            replace: "$1.x.x"
+            target: remote_ip
       - labels: { remote_ip, user }
-
 #─────────── MySQL slow / error / general ───────────
   - job_name: mysql-error
     static_configs:
@@ -43,6 +52,11 @@ scrape_configs:
     pipeline_stages:
       - regex:
           expression: '(?P<remote_ip>(?:[0-9]{1,3}\.){3}[0-9]{1,3})'
+        - replace:
+            source: remote_ip
+            expression: "(\d+\.\d+)\.\d+\.\d+"
+            replace: "$1.x.x"
+            target: remote_ip
       - labels: { remote_ip }
 
 #─────────── ProFTPD ───────────
