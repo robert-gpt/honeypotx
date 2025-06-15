@@ -247,6 +247,14 @@
               "path": "Path"
             }
           }
+        },
+        {
+          "id": "regexReplace",
+          "options": {
+            "pattern": "$ip_mask_regex",
+            "replacement": "$ip_mask_replace",
+            "field": "Ip"
+          }
         }
       ],
       "type": "table"
@@ -322,6 +330,14 @@
           "id": "labelsToFields",
           "options": {
             "mode": "values"
+          }
+        },
+        {
+          "id": "regexReplace",
+          "options": {
+            "pattern": "$ip_mask_regex",
+            "replacement": "$ip_mask_replace",
+            "field": "remote_ip"
           }
         }
       ],
@@ -454,7 +470,7 @@
         },
         "exemplars": false,
         "filterValues": {
-          "le": 1e-9
+          "le": 1E-9
         },
         "legend": {
           "show": true
@@ -514,6 +530,26 @@
         "query": "loki",
         "refresh": 1,
         "type": "datasource"
+      },
+      {
+        "name": "ip_mask_regex",
+        "type": "textbox",
+        "label": "IP mask regex",
+        "query": "(\\d+\\.\\d+)\\.\\d+\\.\\d+",
+        "current": {
+          "text": "(\\d+\\.\\d+)\\.\\d+\\.\\d+",
+          "value": "(\\d+\\.\\d+)\\.\\d+\\.\\d+"
+        }
+      },
+      {
+        "name": "ip_mask_replace",
+        "type": "textbox",
+        "label": "IP mask replace",
+        "query": "$1.x.x",
+        "current": {
+          "text": "$1.x.x",
+          "value": "$1.x.x"
+        }
       }
     ]
   },
