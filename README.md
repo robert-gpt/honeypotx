@@ -116,6 +116,14 @@ Los servicios simulados generan logs que se almacenan en volúmenes locales dent
 
 Promtail los recolecta y envía a Loki, donde se almacenan y están disponibles para consulta.
 
+### Ocultar IPs en Grafana
+Puedes mantener las direcciones IP completas en Loki y decidir desde Grafana si deseas mostrarlas o ocultar los dos últimos octetos.
+Para ello puedes crear dos variables de tipo `Text box` en el dashboard:
+- `ip_mask_regex` con el valor `(\d+\.\d+)\.\d+\.\d+`
+- `ip_mask_replace` con el valor `$1.x.x`
+
+Aplica una transformación **Replace field values** en la tabla que muestre las IPs y usa las variables anteriores en las opciones *Find* y *Replace*.
+Cambiando estas variables a `(.*)` y `$1` podrás ver las IP completas cuando lo necesites.
 Estarán automáticamente creados en el apartado de dashboards los dashboards necesarios para la correcta visualización de todos los servicios.
 
 Las métricas del sistema (uso de CPU, memoria, etc.) se recogen con Node Exporter y se visualizan en Grafana mediante Prometheus.
