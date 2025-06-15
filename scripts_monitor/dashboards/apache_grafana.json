@@ -199,7 +199,7 @@
           "direction": "backward",
           "editorMode": "code",
           "exemplar": false,
-          "expr": "{job=\"apache\"}\n| regexp `(?P<IP>\\d+\\.\\d+\\.\\d+\\.\\d+) - - \\[[^\\]]+\\] \"(?P<method>[A-Z]+) (?P<path>[^\"]+) HTTP/[0-9.]+\" (?P<code>\\d{3})`\n",
+          "expr": "{job=\"apache\"}\n| regexp `(?P<IP>\\d+\\.\\d+\\.\\d+\\.\\d+) - - \\[[^\\]]+\\] \"(?P<method>[A-Z]+) (?P<path>[^\"]+) HTTP/[0-9.]+\" (?P<code>\\d{3})`\n| line_format \"{{ regexReplaceAll \"$ip_mask_regex\" .IP \"$ip_mask_replace\" }},{{ .method }},{{ .path }},{{ .code }}\"\n",
           "format": "logs",
           "instant": false,
           "queryType": "range",
@@ -311,7 +311,7 @@
       "pluginVersion": "11.6.1",
       "targets": [
         {
-          "expr": "topk(10, sum by (remote_ip) (count_over_time({job=\"apache\",type=\"access\"}[5m])))",
+          "expr": "topk(10, sum by (remote_ip) (count_over_time({job=\"apache\",type=\"access\"}[5m]))) | label_format remote_ip=\"{{ regexReplaceAll \"$ip_mask_regex\" .remote_ip \"$ip_mask_replace\" }}\"",
           "instant": true,
           "refId": "A"
         }
@@ -323,6 +323,7 @@
           "options": {
             "mode": "values"
           }
+        },
         }
       ],
       "type": "table"
@@ -454,7 +455,7 @@
         },
         "exemplars": false,
         "filterValues": {
-          "le": 1e-9
+          "le": 1E-9
         },
         "legend": {
           "show": true
@@ -514,6 +515,26 @@
         "query": "loki",
         "refresh": 1,
         "type": "datasource"
+      },
+      {
+        "name": "ip_mask_regex",
+        "type": "textbox",
+        "label": "IP mask regex",
+        "query": "(\\d+\\.\\d+)\\.\\d+\\.\\d+",
+        "current": {
+          "text": "(\\d+\\.\\d+)\\.\\d+\\.\\d+",
+          "value": "(\\d+\\.\\d+)\\.\\d+\\.\\d+"
+        }
+      },
+      {
+        "name": "ip_mask_replace",
+        "type": "textbox",
+        "label": "IP mask replace",
+        "query": "$1.x.x",
+        "current": {
+          "text": "$1.x.x",
+          "value": "$1.x.x"
+        }
       }
     ]
   },
