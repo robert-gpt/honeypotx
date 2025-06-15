@@ -28,32 +28,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Registro de Usuario</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
-    <div class="container">
-        <h2>Registrarse</h2>
+    <?php include 'navbar.php'; ?>
+    <div class="container mt-5" style="max-width: 400px;">
+        <h2 class="mb-4 text-center">Registrarse</h2>
         <?php if (isset($error)): ?>
-            <p class="error"><?= $error ?></p>
+            <div class="alert alert-danger"><?= $error ?></div>
         <?php endif; ?>
         <form method="POST">
-            <label for="username">Nombre de Usuario</label>
-            <input type="text" id="username" name="username" required>
+            <div class="mb-3">
+                <label for="username" class="form-label">Nombre de Usuario</label>
+                <input type="text" id="username" name="username" class="form-control" required>
+            </div>
 
-            <label for="email">Correo Electrónico</label>
-            <input type="email" id="email" name="email" required>
+            <div class="mb-3">
+                <label for="email" class="form-label">Correo Electrónico</label>
+                <input type="email" id="email" name="email" class="form-control" required>
+            </div>
 
-            <label for="password">Contraseña</label>
-            <input type="password" id="password" name="password" required>
+            <div class="mb-3">
+                <label for="password" class="form-label">Contraseña</label>
+                <input type="password" id="password" name="password" class="form-control" required>
+            </div>
 
-            <button type="submit">Registrarse</button>
+            <button type="submit" class="btn btn-primary w-100">Registrarse</button>
         </form>
-             <!-- Botón para ir a iniciar sesion -->
-    <div class="mt-3 text-center">
-        <p>¿Ya tienes cuenta?</p>
-        <a href="login.php" class="btn btn-outline-primary">Iniciar sesión</a>
+        <!-- Botón para ir a iniciar sesión -->
+        <div class="mt-3 text-center">
+            <p>¿Ya tienes cuenta?</p>
+            <a href="login.php" class="btn btn-outline-primary">Iniciar sesión</a>
+        </div>
     </div>
-    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
